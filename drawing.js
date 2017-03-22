@@ -1,12 +1,12 @@
 class Drawing
 {
-    constructor(palette,cols,rows,res)
+    constructor(palette,cols,rows,pixelSize)
     {
         this.palette = palette;
         this.cols = cols;
         this.rows = rows;
 
-        this.pixelSize = int(res/this.cols);
+        this.pixelSize = pixelSize;
         this.pixels = new Array(this.cols*this.rows);
 
         for(let i = 0; i < this.pixels.length; i++)
