@@ -21,41 +21,18 @@ class Palette
         return this.colors[i];
     }
 
-    /**
-     * Imports new colors to the palette and returns the old ones
-     */
-    import(file)
+    importJSON(file)
     {
-        //creating request object
-        let getter = new XMLHttpRequest();
         let newColors = new Array();
-        getter.open('GET', file);
-
-        getter.onloadend = function() {
-            let parser = new DOMParser();
-            xml = parser.parseFromString(getter.responseText, "text/xml");
-            
-            if(xml.documentElement.nodeName == 'palette')
-            {
-                for(let i = 0; i < xml.documentElement.children.length; i++)
-                {
-                    let node = xml.documentElement.children.item(i)
-                    if(node.nodeName == 'color')
-                    {
-                        newColors.push(node.innerHTML.split(','));
-                    }
-                }
-            }
-            console.log(newColors);
-            
+        let getter = new XMLHttpRequest();
+        
+        getter.open('GET', file);        
+        getter.onloadend = ()=>{
+            let json = JSON.parse(getter.responseText);
+            this.colors = json.palette;
+            this.size = json.palette.length;
         }
         //sending request
         getter.send();
-
-        this.size = newColors.length;
-        let oldColors = this.colors;
-        this.colors = newColors;
-
-        return oldColors;
     }
 }
