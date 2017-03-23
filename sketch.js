@@ -3,10 +3,8 @@ const cols = 32;
 const rows = 32;
 const scale = 10;
 
-let paletteFile = 'palette.xml';
 let pressing = false;
 let palette;
-let xml;
 let drawing;
 
 function setup()
@@ -83,7 +81,7 @@ function keyPressed()
 
     //importing palette
     if(keyCode == 73)
-        palette.import('palette.xml');
+        palette.importJSON('palette.json')
 
 }
 
