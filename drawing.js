@@ -5,19 +5,20 @@ class Drawing
         this.palette = palette;
         this.cols = cols;
         this.rows = rows;
-
         this.pixelSize = pixelSize;
+
+        this.paintingColor = 0;
         this.pixels = new Array(this.cols*this.rows);
 
         for(let i = 0; i < this.pixels.length; i++)
         {
-            this.pixels[i] = this.palette.getColor(0);
+            this.pixels[i] = this.paintingColor;
         }
     }
 
-    drawPixel(x,y,i)
+    drawPixel(x,y)
     {
-        this.pixels[x+y*this.cols] = this.palette.getColor(i);
+        this.pixels[x+y*this.cols] = this.paintingColor;
     }
 
     showPixels()
@@ -27,8 +28,12 @@ class Drawing
         {
             let x = i%this.cols;
             let y = int(i/this.cols);
-            fill(this.pixels[i]);
+            fill(this.palette.getColor(this.pixels[i]));
             rect(x*this.pixelSize,y*this.pixelSize,this.pixelSize,this.pixelSize);
         }
+    }
+    setPaintingColor(i)
+    {
+        this.paintingColor = i;
     }
 }

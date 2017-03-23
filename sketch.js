@@ -3,26 +3,27 @@ const cols = 32;
 const rows = 32;
 const scale = 10;
 
+let paletteFile = 'palette.xml';
 let pressing = false;
-let c = [255, 102, 204];
 let palette;
+let xml;
 let drawing;
 
 function setup()
 {
     createCanvas(cols*scale,rows*scale);
 
-    palette = new Palette(4);
-    palette.setColor(1,c);
+    palette = new Palette(256);
+    palette.setColor(1,[255,255,255]);
     drawing = new Drawing(palette,cols,rows,scale);
 }
 
 function draw()
 {
-    background('#333');
+    background(150);
     if(pressing)
     {
-        drawing.drawPixel(localMouseX(),localMouseY(),1);
+        drawing.drawPixel(localMouseX(),localMouseY());
     }
     drawing.showPixels();
 }
@@ -55,3 +56,35 @@ function localMouseY()
     return local;
 }
 
+function keyPressed()
+{
+    //1 2 3 4 5 6 7 8 9 0
+    //quick access colors
+    if(keyCode == 49)
+        drawing.setPaintingColor(1);
+    if(keyCode == 50)
+        drawing.setPaintingColor(2);
+    if(keyCode == 51)
+        drawing.setPaintingColor(3);
+    if(keyCode == 52)
+        drawing.setPaintingColor(4);
+    if(keyCode == 53)
+        drawing.setPaintingColor(5);
+    if(keyCode == 54)
+        drawing.setPaintingColor(6);
+    if(keyCode == 55)
+        drawing.setPaintingColor(7);
+    if(keyCode == 56)
+        drawing.setPaintingColor(8);
+    if(keyCode == 57)
+        drawing.setPaintingColor(9);
+    if(keyCode == 48)
+        drawing.setPaintingColor(0);
+
+    //importing palette
+    if(keyCode == 73)
+        palette.import('palette.xml');
+
+}
+
+//saveCanvas
