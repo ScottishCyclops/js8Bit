@@ -118,7 +118,6 @@ function keyPressed()
     if(keyCode == 89)
         drawing.redo();
 
-
 }
 
 //saveCanvas
