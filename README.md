@@ -22,5 +22,4 @@ Redo                | key : ctrl+Y
 - Full palette color picker
 - Dynamic resizing
 
-That's all!
--Scott
+That's all! -Scott
