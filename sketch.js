@@ -17,10 +17,10 @@
 */
 
 const RGBA = 4;
-const cols = 8;
-const rows = 8;
+const cols = 16;
+const rows = 16;
 const scale = 30;
-const undoSteps = 10;
+const undoSteps = 12;
 const paletteSize = 256;
 
 let pressing;
@@ -39,11 +39,11 @@ function setup()
 
     cursor = new Cursor(drawing);
     pressing = false;
-    //console.log(JSON.parse(localStorage.getItem('palette.json')));
 
-    let obj = {"nissan": "sentra", "color": "green"};
-
-    localStorage.setItem('myStorage', JSON.stringify(obj));
+    document.getElementById('fileInput').onchange = function(element)
+    {
+        console.log(element.target.value);
+    };
 }
 
 function draw()
@@ -61,6 +61,7 @@ function draw()
 
 function mousePressed()
 {
+    drawing.pushUndo();
     pressing = true;
 }
 
@@ -69,6 +70,7 @@ function mouseReleased()
     pressing = false;
     //putting the last modifications in the undo stack
     drawing.pushUndo();
+    drawing.undoPosition = 0
 }
 
 function localMouseX()
@@ -127,6 +129,14 @@ function keyPressed()
     if(keyCode == 89)
         drawing.redo();
 
+    /*
+    //zoom in
+    if(keyCode == 107)
+        scale+=5;
+    //zoom out
+    if(keyCode == 109)
+        scale-=5;
+    */
 }
 
 //saveCanvas

@@ -1,5 +1,5 @@
 /**
- * Returns wether the two given arrays are equal or not
+ * Returns whether the two given arrays are equal or not
  * @param {Array} a
  * @param {Array} b
  */

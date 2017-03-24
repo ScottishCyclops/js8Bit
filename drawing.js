@@ -68,33 +68,56 @@ class Drawing
     pushUndo()
     {
         //only if they were modifications
-        console.log(this.undoSteps);
-        console.log(this.pixels);
         if(!isEqual(this.pixels,this.undoSteps[0]))
         {
+            //we copy the array of pixels and put it into the undo array
             this.undoSteps.unshift(this.pixels.slice());
             //if we reached the max undo storage
-            /*
+            
             if(this.undoSteps.length > this.maxUndoSteps)
             {
-                this.undoSteps = this.undoSteps.slice(0,this.maxUndoSteps-1);
+                this.undoSteps = this.undoSteps.slice(0,this.maxUndoSteps);
             }
-            */
+            console.log(this.undoSteps); 
         }
     }
-    /*
+    
     undo()
     {
-        if(undoPosition == 0)
+        if(this.undoPosition == 0)
+        {
+            //if we havn't undone yet, we need to save this stage for redo purpuses
             this.pushUndo();
+        }
 
-        undoPosition++;
-        this.pixels = this.undoSteps[undoPosition];
+        if(this.undoPosition < this.undoSteps.length-1)
+        {
+            //we copy the array from the undo to the real pixels
+            this.pixels = this.undoSteps[this.undoPosition+1].slice();
+            this.undoPosition++;
+        }
+        else
+        {
+            console.log("nothing more to undo. try increasing undo steps")
+        }
+
+        console.log(this.undoPosition);
     }
 
     redo()
     {
-        this.pixels = this.undoSteps[undoPosition-1];
+        if(this.undoPosition <= 0)
+        {
+            this.undoPosition = 0;
+            console.log("nothing more to redo")
+        }
+        else
+        {
+            this.pixels = this.undoSteps[this.undoPosition-1].slice();
+            this.undoPosition--;
+        }
+
+        console.log(this.undoPosition);        
     }
-    */
+    
 }
