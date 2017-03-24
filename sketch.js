@@ -1,5 +1,5 @@
  /*
-    This is a simple chess game made with P5.js
+    This is a simple 8bit painter made with P5.js
     Copyright (C) 2017 Scott Winkelmann
 
     This program is free software: you can redistribute it and/or modify

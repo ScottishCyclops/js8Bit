@@ -1,5 +1,5 @@
  /*
-    This is a simple chess game made with P5.js
+    TThis is a simple 8bit painter made with P5.js
     Copyright (C) 2017 Scott Winkelmann
 
     This program is free software: you can redistribute it and/or modify
@@ -44,7 +44,7 @@ class Palette
         let newColors = new Array();
         let getter = new XMLHttpRequest();
         
-        getter.open('GET', file);        
+        getter.open('GET', file);       
         getter.onloadend = ()=>{
             let json = JSON.parse(getter.responseText);
             this.colors = json.palette;

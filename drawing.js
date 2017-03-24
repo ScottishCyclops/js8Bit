@@ -1,5 +1,5 @@
  /*
-    This is a simple chess game made with P5.js
+    This is a simple 8bit painter made with P5.js
     Copyright (C) 2017 Scott Winkelmann
 
     This program is free software: you can redistribute it and/or modify
@@ -40,8 +40,11 @@ class Drawing
 
     drawPixel(x,y)
     {
-        this.pushUndo();
+        let oldPixels = this.pixels;
         this.pixels[x+y*this.cols] = this.paintingColor;
+
+        if(oldPixels != this.pixels)
+            this.pushUndo(oldPixels);
     }
 
     showPixels()
@@ -55,17 +58,21 @@ class Drawing
             rect(x*this.pixelSize,y*this.pixelSize,this.pixelSize,this.pixelSize);
         }
     }
+    
     setPaintingColor(i)
     {
         this.paintingColor = i;
     }
 
-    pushUndo()
+    pushUndo(oldPixels)
     {
-        this.undoSteps.unshift(this.pixels);
+        this.undoSteps.unshift(oldPixels);
         //if we reached the max undo storage
         if(this.undoSteps.length > this.maxUndoSteps)
+        {
             this.undoSteps = this.undoSteps.slice(0,this.maxUndoSteps-1);
+        }
+        console.log(this.undoSteps);
     }
     
     undo()
