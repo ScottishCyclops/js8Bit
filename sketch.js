@@ -2,28 +2,38 @@ const RGBA = 4;
 const cols = 32;
 const rows = 32;
 const scale = 10;
+const undoSteps = 10;
+const paletteSize = 256;
 
-let pressing = false;
+let pressing;
 let palette;
 let drawing;
+let cursor;
 
 function setup()
 {
     createCanvas(cols*scale,rows*scale);
+    frameRate(120);
 
-    palette = new Palette(256);
+    palette = new Palette(paletteSize);
     palette.setColor(1,[255,255,255]);
-    drawing = new Drawing(palette,cols,rows,scale);
+    drawing = new Drawing(palette,cols,rows,scale,undoSteps);
+
+    cursor = new Cursor(drawing);
+    pressing = false;
 }
 
 function draw()
 {
-    background(150);
+    background(100);
+
     if(pressing)
     {
         drawing.drawPixel(localMouseX(),localMouseY());
     }
+
     drawing.showPixels();
+    cursor.draw();
 }
 
 function mousePressed()
@@ -79,9 +89,17 @@ function keyPressed()
     if(keyCode == 48)
         drawing.setPaintingColor(0);
 
-    //importing palette
+    //importing palette : I
     if(keyCode == 73)
         palette.importJSON('palette.json')
+
+    //undo : Z
+    if(keyCode == 90)
+        drawing.undo();
+    //redo : Y
+    if(keyCode == 89)
+        drawing.redo();
+
 
 }
 
