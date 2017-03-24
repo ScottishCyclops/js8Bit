@@ -78,7 +78,6 @@ class Drawing
             {
                 this.undoSteps = this.undoSteps.slice(0,this.maxUndoSteps);
             }
-            console.log(this.undoSteps); 
         }
     }
     
@@ -117,7 +116,7 @@ class Drawing
             this.undoPosition--;
         }
 
-        console.log(this.undoPosition);        
+        console.log(this.undoPosition);
     }
     
 }

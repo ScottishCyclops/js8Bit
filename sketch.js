@@ -16,9 +16,9 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-const RGBA = 4;
 const cols = 16;
 const rows = 16;
+//the scale to which the pixels are drawn (1px is "scale" px in the browser)
 const scale = 30;
 const undoSteps = 12;
 const paletteSize = 256;
@@ -30,7 +30,7 @@ let cursor;
 
 function setup()
 {
-    createCanvas(cols*scale,rows*scale);
+    createCanvas(cols*scale*2,rows*scale);
     frameRate(120);
 
     palette = new Palette(paletteSize);
@@ -48,95 +48,23 @@ function setup()
 
 function draw()
 {
-    background(100);
+    background(200);
 
     if(pressing)
     {
-        drawing.drawPixel(localMouseX(),localMouseY());
+        if(!cursor.picker)
+        {
+            //drawing
+            drawing.drawPixel(localMouseX(),localMouseY());
+        }
+        else
+        {
+            //picking colors
+            drawing.paintingColor = drawing.pixels[localMouseX()+localMouseY()*cols];
+        }
     }
 
     drawing.showPixels();
+    palette.showColors();
     cursor.draw();
 }
-
-function mousePressed()
-{
-    drawing.pushUndo();
-    pressing = true;
-}
-
-function mouseReleased()
-{
-    pressing = false;
-    //putting the last modifications in the undo stack
-    drawing.pushUndo();
-    drawing.undoPosition = 0
-}
-
-function localMouseX()
-{
-    let local = int(map(mouseX,0,scale*cols,0,cols));    
-
-    if(local >= cols)
-        local = cols-1;
-    return local;
-}
-
-function localMouseY()
-{
-    let local = int(map(mouseY,0,scale*rows,0,rows));
-
-    if(local >= rows)
-        local = rows-1;
-    return local;
-}
-
-function keyPressed()
-{
-    //1 2 3 4 5 6 7 8 9 0
-    //quick access colors
-    if(keyCode == 49)
-        drawing.setPaintingColor(1);
-    if(keyCode == 50)
-        drawing.setPaintingColor(2);
-    if(keyCode == 51)
-        drawing.setPaintingColor(3);
-    if(keyCode == 52)
-        drawing.setPaintingColor(4);
-    if(keyCode == 53)
-        drawing.setPaintingColor(5);
-    if(keyCode == 54)
-        drawing.setPaintingColor(6);
-    if(keyCode == 55)
-        drawing.setPaintingColor(7);
-    if(keyCode == 56)
-        drawing.setPaintingColor(8);
-    if(keyCode == 57)
-        drawing.setPaintingColor(9);
-    if(keyCode == 48)
-        drawing.setPaintingColor(0);
-
-    //importing palette : I
-    if(keyCode == 73)
-        palette.importJSON('palette.json')
-    if(keyCode == 79)
-        palette.importJSON('palette2.json')
-
-    //undo : Z
-    if(keyCode == 90)
-        drawing.undo();
-    //redo : Y
-    if(keyCode == 89)
-        drawing.redo();
-
-    /*
-    //zoom in
-    if(keyCode == 107)
-        scale+=5;
-    //zoom out
-    if(keyCode == 109)
-        scale-=5;
-    */
-}
-
-//saveCanvas

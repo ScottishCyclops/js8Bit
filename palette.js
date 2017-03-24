@@ -53,4 +53,20 @@ class Palette
         //sending request
         getter.send();
     }
+
+    showColors()
+    {
+        //strokeWeight(1);
+        //stroke(0);
+        noStroke();
+        for(let i = 0; i < this.size; i++)
+        {
+            let x = (i%this.cols);
+            let y = int(i/this.cols);
+
+            fill(this.colors[i]);
+            rect(x*scale,y*scale,scale,scale);
+            //console.log(this.colors);
+        }
+    }
 }

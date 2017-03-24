@@ -21,18 +21,30 @@ class Cursor
     constructor(drawing)
     {
         this.drawing = drawing;
+        this.picker = false;
         //cursor(CROSS);
         noCursor();
     }
     draw()
     {
-        let fillColor = this.drawing.palette.getColor(this.drawing.paintingColor);
+        let fillColor;
+        if(!this.picker)
+        {
+            fillColor = this.drawing.palette.getColor(this.drawing.paintingColor);
+        }
+        else
+        {
+            fillColor = this.drawing.palette.getColor(this.drawing.pixels[localMouseX()+localMouseY()*cols]);
+        }
         //inverted grey-scale color
         let strokeColor = map(brightness(fillColor),0,1,255,0);
 
         strokeWeight(1);
         stroke(strokeColor);
         fill(fillColor);
-        rect(mouseX-scale/2,mouseY-scale/2,scale,scale);
+        if(!this.picker)
+            rect(mouseX-scale/2,mouseY-scale/2,scale,scale);
+        else
+            ellipse(mouseX,mouseY,scale,scale);
     }
 }
