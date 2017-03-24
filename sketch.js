@@ -17,9 +17,9 @@
 */
 
 const RGBA = 4;
-const cols = 32;
-const rows = 32;
-const scale = 10;
+const cols = 8;
+const rows = 8;
+const scale = 30;
 const undoSteps = 10;
 const paletteSize = 256;
 
@@ -39,6 +39,11 @@ function setup()
 
     cursor = new Cursor(drawing);
     pressing = false;
+    //console.log(JSON.parse(localStorage.getItem('palette.json')));
+
+    let obj = {"nissan": "sentra", "color": "green"};
+
+    localStorage.setItem('myStorage', JSON.stringify(obj));
 }
 
 function draw()
@@ -62,6 +67,8 @@ function mousePressed()
 function mouseReleased()
 {
     pressing = false;
+    //putting the last modifications in the undo stack
+    drawing.pushUndo();
 }
 
 function localMouseX()
@@ -110,6 +117,8 @@ function keyPressed()
     //importing palette : I
     if(keyCode == 73)
         palette.importJSON('palette.json')
+    if(keyCode == 79)
+        palette.importJSON('palette2.json')
 
     //undo : Z
     if(keyCode == 90)

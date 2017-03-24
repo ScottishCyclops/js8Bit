@@ -36,15 +36,16 @@ class Drawing
         {
             this.pixels[i] = this.paintingColor;
         }
+        this.pushUndo();
     }
 
     drawPixel(x,y)
     {
-        let oldPixels = this.pixels;
-        this.pixels[x+y*this.cols] = this.paintingColor;
-
-        if(oldPixels != this.pixels)
-            this.pushUndo(oldPixels);
+        let index = x+y*this.cols;
+        if(this.pixels[index] != this.paintingColor)
+        {
+            this.pixels[index] = this.paintingColor;
+        }
     }
 
     showPixels()
@@ -58,23 +59,30 @@ class Drawing
             rect(x*this.pixelSize,y*this.pixelSize,this.pixelSize,this.pixelSize);
         }
     }
-    
+
     setPaintingColor(i)
     {
         this.paintingColor = i;
     }
 
-    pushUndo(oldPixels)
+    pushUndo()
     {
-        this.undoSteps.unshift(oldPixels);
-        //if we reached the max undo storage
-        if(this.undoSteps.length > this.maxUndoSteps)
-        {
-            this.undoSteps = this.undoSteps.slice(0,this.maxUndoSteps-1);
-        }
+        //only if they were modifications
         console.log(this.undoSteps);
+        console.log(this.pixels);
+        if(!isEqual(this.pixels,this.undoSteps[0]))
+        {
+            this.undoSteps.unshift(this.pixels.slice());
+            //if we reached the max undo storage
+            /*
+            if(this.undoSteps.length > this.maxUndoSteps)
+            {
+                this.undoSteps = this.undoSteps.slice(0,this.maxUndoSteps-1);
+            }
+            */
+        }
     }
-    
+    /*
     undo()
     {
         if(undoPosition == 0)
@@ -88,4 +96,5 @@ class Drawing
     {
         this.pixels = this.undoSteps[undoPosition-1];
     }
+    */
 }
