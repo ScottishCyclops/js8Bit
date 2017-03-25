@@ -1,19 +1,19 @@
  <!--
-      This is a simple 8bit painter made with P5.js
-      Copyright (C) 2017 Scott Winkelmann
+    This is a simple 8bit painter made with P5.js
+    Copyright (C) 2017 Scott Winkelmann
 
-      This program is free software: you can redistribute it and/or modify
-      it under the terms of the GNU General Public License as published by
-      the Free Software Foundation, either version 3 of the License, or
-      (at your option) any later version.
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-      This program is distributed in the hope that it will be useful,
-      but WITHOUT ANY WARRANTY; without even the implied warranty of
-      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-      GNU General Public License for more details.
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
 
-      You should have received a copy of the GNU General Public License
-      along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
 <!DOCTYPE html>
@@ -21,6 +21,8 @@
 
 <head>
     <meta charset="utf-8">
+    <link rel="stylesheet" href="css/style.css">
+
     <script src="p5.min.js"></script>
     <script src="sketch.js"></script>
     <script src="utils.js"></script>
@@ -28,21 +30,15 @@
     <script src="cursor.js"></script>
     <script src="drawing.js"></script>
     <script src="palette.js"></script>
-    <style>
-      *
-      {
-        margin:0;
-        padding:0;
-      }
-      body
-      {
-        overflow: hidden;
-      }
-    </style>
+
 </head>
 <body>
-  <input type="file" id="fileInput" hidden/>
-  <label for="fileInput" id="fileInputLabel">Import drawing</label><br>
-  <input type="button" id="saveButton" value="Save drawing"/><br>
+  <div id="content">
+    <input type="file" id="fileInput"/>
+    <label for="fileInput" id="fileInputLabel">Import drawing</label>
+
+    <input type="button" id="saveButton"/>
+    <label for="saveButton" id="saveButtonLabel">Export drawing</label>
+  </div>
 </body>
 </html>
