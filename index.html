@@ -23,22 +23,25 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="css/style.css">
 
-    <script src="p5.min.js"></script>
-    <script src="sketch.js"></script>
-    <script src="utils.js"></script>
+    <script src="js/p5.min.js"></script>
+    <script src="js/sketch.js"></script>
+    <script src="js/utils.js"></script>
 
-    <script src="cursor.js"></script>
-    <script src="drawing.js"></script>
-    <script src="palette.js"></script>
+    <script src="js/cursor.js"></script>
+    <script src="js/drawing.js"></script>
+    <script src="js/palette.js"></script>
 
 </head>
 <body>
   <div id="content">
-    <input type="file" id="fileInput"/>
-    <label for="fileInput" id="fileInputLabel">Import drawing</label>
+    <input type="file" id="importButton" class="button"/>
+    <label for="importButton" class="label">Import drawing</label>
 
-    <input type="button" id="saveButton"/>
-    <label for="saveButton" id="saveButtonLabel">Export drawing</label>
+    <input type="button" id="exportButton" class="button"/>
+    <label for="exportButton" class="label">Export drawing</label>
+
+    <input type="button" id="paletteButton" class="button"/>
+    <label for="paletteButton" class="label">Show Palette</label>
   </div>
 </body>
 </html>

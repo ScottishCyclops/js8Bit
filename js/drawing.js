@@ -100,7 +100,7 @@ class Drawing
             console.log("nothing more to undo. try increasing undo steps")
         }
 
-        console.log(this.undoPosition);
+        //console.log(this.undoPosition);
     }
 
     redo()
@@ -116,7 +116,7 @@ class Drawing
             this.undoPosition--;
         }
 
-        console.log(this.undoPosition);
+        //console.log(this.undoPosition);
     }
     importJson(file)
     {

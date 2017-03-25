@@ -62,7 +62,8 @@ function mouseReleased()
     //putting the last modifications in the undo stack
     drawing.pushUndo();
     drawing.undoPosition = 0
-    cursor.picker = false;
+    if(cursor.mode == 1)
+        cursor.mode = 0
 }
 
 function localMouseX()
@@ -141,7 +142,13 @@ function keyPressed()
 
     //color picker
     if(keyIsDown(P_KEY))
-        cursor.picker ? cursor.picker = false : cursor.picker = true;
+        if(!paletteMode)
+            cursor.mode == 0 ? cursor.mode = 1 : cursor.mode = 0;
+}
+
+function getInvertedColor(color)
+{
+    return map(brightness(color),0,1,255,0);
 }
 
 

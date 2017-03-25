@@ -26,10 +26,13 @@ const paletteSize = 256;
 let pressing;
 let palette;
 let drawing;
+let paletteMode;
+let oldMode;
 
 //HTML inputs
-let fileInput;
-let saveButton;
+let importButton;
+let exportButton;
+let paletteButton;
 
 function setup()
 {
@@ -42,43 +45,69 @@ function setup()
     palette.setColor(1,[255,255,255]);
     drawing = new Drawing(palette,cols,rows,scale,undoSteps);
     cursor = new Cursor(drawing);
+
     pressing = false;
+    paletteMode = false;
+    oldMode = 0;
 
     //drawing importing
-    fileInput = document.getElementById('fileInput');
-    fileInput.onchange = function()
+    importButton = document.getElementById('importButton');
+    importButton.onchange = function()
     {
         let reader = new FileReader();
         reader.onloadend = function()
         {
             drawing.importJson(this.result);
-            fileInput.value = "";
+            importButton.value = "";
         };
-        reader.readAsText(fileInput.files[0]);
+        reader.readAsText(importButton.files[0]);
     };
 
     //drawing exporting
-    saveButton = document.getElementById('saveButton');
-    saveButton.onclick = function () {
+    exportButton = document.getElementById('exportButton');
+    exportButton.onclick = function () {
         drawing.exportJson();
     };
+
+    //palette mode
+    paletteButton = document.getElementById('paletteButton');
+    paletteButton.onclick = function()
+    {
+        paletteMode ? paletteMode = false : paletteMode = true;
+
+        if(paletteMode)
+            cursor.mode = 2;
+        else
+            cursor.mode = 0;
+    }
 }
 
 function draw()
 {
     background(200);
+    if((mouseY < 0 || mouseX < 0 || mouseY > height || mouseX > width) && cursor.mode != 3)
+    {
+        oldMode = cursor.mode;
+        cursor.mode = 3;
+    }
+    else
+    {
+        cursor.mode = oldMode;
+    }
 
     if(pressing)
     {
-        if(!cursor.picker)
+        switch(cursor.mode)
         {
-            //drawing
-            drawing.drawPixel(localMouseX(),localMouseY());
-        }
-        else
-        {
-            //picking colors
-            drawing.paintingColor = drawing.pixels[localMouseX()+localMouseY()*cols];
+            case 0:
+                drawing.drawPixel(localMouseX(),localMouseY());
+                break;
+            case 1:
+                drawing.paintingColor = drawing.pixels[localMouseX()+localMouseY()*cols];
+                break;
+            case 2:
+                console.log("paletteMode");
+                break;
         }
     }
 
