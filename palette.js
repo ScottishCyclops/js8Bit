@@ -39,7 +39,7 @@ class Palette
         return this.colors[i];
     }
 
-    importJSON(file)
+    importJson(file)
     {
         let newColors = new Array();
         let getter = new XMLHttpRequest();

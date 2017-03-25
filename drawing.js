@@ -118,5 +118,16 @@ class Drawing
 
         console.log(this.undoPosition);
     }
+    importJson(file)
+    {
+        this.pixels = JSON.parse(file);
+    }
+
+    exportJson()
+    {
+        let jsonPixels = JSON.stringify(this.pixels);
+        let dlLink = "data:application/octet-stream," + encodeURIComponent(jsonPixels);
+        window.open(dlLink, 'drawing.json');
+    }
     
 }

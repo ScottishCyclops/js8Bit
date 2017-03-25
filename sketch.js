@@ -26,23 +26,41 @@ const paletteSize = 256;
 let pressing;
 let palette;
 let drawing;
-let cursor;
+
+//HTML inputs
+let fileInput;
+let saveButton;
 
 function setup()
 {
+    //canvas
     createCanvas(cols*scale*2,rows*scale);
     frameRate(120);
 
+    //objects and var initialization
     palette = new Palette(paletteSize);
     palette.setColor(1,[255,255,255]);
     drawing = new Drawing(palette,cols,rows,scale,undoSteps);
-
     cursor = new Cursor(drawing);
     pressing = false;
 
-    document.getElementById('fileInput').onchange = function(element)
+    //drawing importing
+    fileInput = document.getElementById('fileInput');
+    fileInput.onchange = function()
     {
-        console.log(element.target.value);
+        let reader = new FileReader();
+        reader.onloadend = function()
+        {
+            drawing.importJson(this.result);
+            fileInput.value = "";
+        };
+        reader.readAsText(fileInput.files[0]);
+    };
+
+    //drawing exporting
+    saveButton = document.getElementById('saveButton');
+    saveButton.onclick = function () {
+        drawing.exportJson();
     };
 }
 

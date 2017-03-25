@@ -129,9 +129,9 @@ function keyPressed()
 
     //importing palettes
     if(keyIsDown(I_KEY))
-        palette.importJSON('palette.json')
+        palette.importJson('palette.json')
     if(keyIsDown(O_KEY))
-        palette.importJSON('palette2.json')
+        palette.importJson('palette2.json')
     //undo
      if(keyIsDown(CTRL) && keyIsDown(Z_KEY))
         drawing.undo();
@@ -143,5 +143,6 @@ function keyPressed()
     if(keyIsDown(P_KEY))
         cursor.picker ? cursor.picker = false : cursor.picker = true;
 }
+
 
 //saveCanvas
