@@ -48,6 +48,14 @@ function isEqual(a,b)
     return equal;
 }
 
+let cursorMode = 
+{
+    DRAWING:   0,
+    PICKING:   1,
+    PALETTE:   2,
+    SELECTION: 3,
+};
+
 //mouse
 
 function mousePressed()

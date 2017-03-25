@@ -27,7 +27,7 @@ let pressing;
 let palette;
 let drawing;
 let paletteMode;
-let oldMode;
+//let oldMode;
 
 //HTML inputs
 let importButton;
@@ -48,7 +48,7 @@ function setup()
 
     pressing = false;
     paletteMode = false;
-    oldMode = 0;
+    //oldMode = 0;
 
     //drawing importing
     importButton = document.getElementById('importButton');
@@ -85,6 +85,7 @@ function setup()
 function draw()
 {
     background(200);
+    /*
     if((mouseY < 0 || mouseX < 0 || mouseY > height || mouseX > width) && cursor.mode != 3)
     {
         oldMode = cursor.mode;
@@ -94,18 +95,19 @@ function draw()
     {
         cursor.mode = oldMode;
     }
+    */
 
     if(pressing)
     {
         switch(cursor.mode)
         {
-            case 0:
+            case cursorMode.DRAWING:
                 drawing.drawPixel(localMouseX(),localMouseY());
                 break;
-            case 1:
+            case cursorMode.PICKING:
                 drawing.paintingColor = drawing.pixels[localMouseX()+localMouseY()*cols];
                 break;
-            case 2:
+            case cursorMode.PALETTE:
                 console.log("paletteMode");
                 break;
         }

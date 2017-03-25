@@ -16,14 +16,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-let cursorMode = 
-{
-    DRAWING:   0,
-    PICKING:   1,
-    PALETTE:   2,
-    SELECTION: 3,
-};
-
 class Cursor
 {
     constructor(drawing)
