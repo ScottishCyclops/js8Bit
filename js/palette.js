@@ -56,9 +56,10 @@ class Palette
 
     showColors()
     {
-        //strokeWeight(1);
-        //stroke(0);
-        noStroke();
+        /*
+        strokeWeight(1);
+        stroke(0);
+        //noStroke();
         for(let i = 0; i < this.size; i++)
         {
             let x = (i%this.cols);
@@ -67,6 +68,15 @@ class Palette
             fill(this.colors[i]);
             rect(x*scale,y*scale,scale,scale);
             //console.log(this.colors);
+        }
+        */
+        noStroke();
+        for(let i = 0; i < this.colors.length; i++)
+        {
+            let x = i%cols;
+            let y = int(i/cols);
+            fill(this.colors[i]);
+            rect(x*scale,y*scale,scale,scale);
         }
     }
 }

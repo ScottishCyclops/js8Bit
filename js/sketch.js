@@ -92,17 +92,6 @@ function setup()
 function draw()
 {
     background(200);
-    /*
-    if((mouseY < 0 || mouseX < 0 || mouseY > height || mouseX > width) && cursor.mode != 3)
-    {
-        oldMode = cursor.mode;
-        cursor.mode = 3;
-    }
-    else
-    {
-        cursor.mode = oldMode;
-    }
-    */
 
     if(pressing)
     {
@@ -123,6 +112,6 @@ function draw()
     }
 
     drawing.showPixels();
-    palette.showColors();
+    //palette.showColors();
     cursor.draw();
 }
