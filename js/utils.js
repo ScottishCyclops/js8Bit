@@ -74,21 +74,35 @@ function mouseReleased()
         cursor.mode = 0
 }
 
+/**
+ * Returns the position of the mouse on X clamped between 0 and the cols - 1.
+ * 
+ * Essentially the X index of the pixel we are hovering
+ */
 function localMouseX()
 {
-    let local = int(map(mouseX,0,scale*cols,0,cols));    
+    let local = int(map(mouseX,0,scale*cols,0,cols));
 
-    if(local >= cols)
+    if(local > cols-1)
         local = cols-1;
+    else if(local < 0)
+        local = 0;
     return local;
 }
 
+/**
+ * Returns the position of the mouse on Y clamped between 0 and the rows - 1.
+ * 
+ * Essentially the Y index of the pixel we are hovering
+ */
 function localMouseY()
 {
     let local = int(map(mouseY,0,scale*rows,0,rows));
 
-    if(local >= rows)
+    if(local > rows-1)
         local = rows-1;
+    else if(local < 0)
+        local = 0;
     return local;
 }
 
