@@ -13,8 +13,10 @@ Quick colors access | keys : 0-9
 Color picker        | key : p
 Undo                | key : ctrl+Z
 Redo                | key : ctrl+Y
-Drawing exporting   | into json files
+Drawing exporting   | to json files
 Drawing importing   | with json files
+Drawing exporting   | to bitmap format
+Palette viewing    | with dedicated button
 
 ## Planned features
 - Assisted palette creation
