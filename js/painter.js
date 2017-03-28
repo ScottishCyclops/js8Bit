@@ -90,21 +90,18 @@ function setup()
             cursor.mode = cursorMode.DRAWING;
     }
 
-    //palette editor
+    //palette editor (complicated because we may want to do more stuff)
     paletteEditor = document.getElementById('paletteEditor');
-    let alerted = false;
     paletteEditor.onclick = function()
     {
-        if(!alerted)
-        {
-            alert("Remember to save before leaving\nClick again to leave");
-            alerted = true;
-        }
-        else
-        {
-            open('editor.html','_self');
-        }
+        open('editor.html','_self');
     }
+    
+    //confirm leaving
+    window.onbeforeunload = function() 
+    {
+        return '';
+    };
 }
 
 function draw()
