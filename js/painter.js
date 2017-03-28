@@ -98,9 +98,9 @@ function setup()
     }
     
     //confirm leaving
-    window.onbeforeunload = function() 
+    window.onbeforeunload = function(e) 
     {
-        return '';
+        return "Discard changes?";
     };
 }
 
