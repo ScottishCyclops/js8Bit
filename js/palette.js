@@ -47,8 +47,16 @@ class Palette
         getter.open('GET', file);       
         getter.onloadend = ()=>{
             let json = JSON.parse(getter.responseText);
-            this.colors = json.palette;
-            this.size = json.palette.length;
+            if(json.palette)
+            {
+                this.colors = json.palette;
+                this.size = json.palette.length;
+            }
+            else
+            {
+                this.colors = json;
+                this.size = json.length;
+            }
         }
         //sending request
         getter.send();
