@@ -16,7 +16,7 @@ Redo                | key : ctrl+Y
 Drawing exporting   | to json files
 Drawing importing   | with json files
 Drawing exporting   | to bitmap format
-Palette viewwing    | with dedicated button
+Palette viewing    | with dedicated button
 
 ## Planned features
 - Assisted palette creation
