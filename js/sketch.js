@@ -111,7 +111,9 @@ function draw()
         }
     }
 
-    drawing.showPixels();
-    //palette.showColors();
+    if(cursor.mode == cursorMode.PALETTE)
+        palette.showColors();
+    else
+        drawing.showPixels();
     cursor.draw();
 }
