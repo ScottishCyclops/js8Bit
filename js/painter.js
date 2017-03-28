@@ -16,6 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+//optimized for 16x16
 const cols = 16;
 const rows = 16;
 //the scale to which the pixels are drawn (1px is "scale" px in the browser)
@@ -33,7 +34,8 @@ let paletteMode;
 let importJson;
 let exportJson;
 let exportBitmap;
-let paletteButton;
+let paletteViewer;
+let paletteEditor;
 
 function setup()
 {
@@ -77,8 +79,8 @@ function setup()
     };
 
     //palette mode
-    paletteButton = document.getElementById('paletteButton');
-    paletteButton.onclick = function()
+    paletteViewer = document.getElementById('paletteViewer');
+    paletteViewer.onclick = function()
     {
         paletteMode ? paletteMode = false : paletteMode = true;
 
@@ -86,6 +88,22 @@ function setup()
             cursor.mode = cursorMode.PALETTE;
         else
             cursor.mode = cursorMode.DRAWING;
+    }
+
+    //palette editor
+    paletteEditor = document.getElementById('paletteEditor');
+    let alerted = false;
+    paletteEditor.onclick = function()
+    {
+        if(!alerted)
+        {
+            alert("Remember to save before leaving\nClick again to leave");
+            alerted = true;
+        }
+        else
+        {
+            open('editor.html','_self');
+        }
     }
 }
 

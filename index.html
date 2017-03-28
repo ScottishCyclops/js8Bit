@@ -24,7 +24,7 @@
     <link rel="stylesheet" href="css/style.css">
 
     <script src="js/p5.min.js"></script>
-    <script src="js/sketch.js"></script>
+    <script src="js/painter.js"></script>
     <script src="js/utils.js"></script>
 
     <script src="js/cursor.js"></script>
@@ -34,6 +34,7 @@
 </head>
 <body>
   <div id="content">
+    <h1>Painter</h1>
     <input type="file" id="importJson" class="button"/>
     <label for="importJson" class="label">Load</label>
 
@@ -43,8 +44,11 @@
     <input type="button" id="exportBitmap" class="button"/>
     <label for="exportBitmap" class="label">Export</label>
 
-    <input type="button" id="paletteButton" class="button"/>
-    <label for="paletteButton" class="label">Show Palette</label>
+    <input type="button" id="paletteViewer" class="button"/>
+    <label for="paletteViewer" class="label">Show Palette</label>
+
+    <input type="button" id="paletteEditor" class="button"/>
+    <label for="paletteEditor" class="label">Palette Editor</label>
   </div>
 </body>
 </html>

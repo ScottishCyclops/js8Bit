@@ -21,19 +21,21 @@
 
 <head>
     <meta charset="utf-8">
-    <!--<link rel="stylesheet" href="css/style.css">-->
+    <link rel="stylesheet" href="css/style.css">
 
     <script src="js/p5.min.js"></script>
-    <script src="js/palettecreator.js"></script>
-    <style>
-      *
-      {
-        padding: 0;
-        margin: 0;
-      }
-    </style>
-
+    <script src="js/editor.js"></script>
 </head>
 <body>
+  <div id="content">
+    <h1>Palette Editor</h1>
+    <input type="file" id="importJson" class="button"/>
+    <label for="importJson" class="label">Load</label>
+
+    <input type="button" id="exportJson" class="button"/>
+    <label for="exportJson" class="label">Save as</label>
+
+    <a href="index.html"><label class="label">Painter</label></a>
+  </div>
 </body>
 </html>
