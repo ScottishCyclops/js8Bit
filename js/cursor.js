@@ -22,9 +22,10 @@ class Cursor
     {
         this.drawing = drawing;
         this.mode = cursorMode.DRAWING;
-        //cursor(CROSS);
-        noCursor();
+        cursor(CROSS);
+        //noCursor();
     }
+
     draw()
     {
         if(this.mode != 3)
@@ -56,12 +57,11 @@ class Cursor
                 noStroke();
             } 
             fill(fillColor);
-
             switch(this.mode)
             {
                 case cursorMode.PALETTE:
                 case cursorMode.DRAWING:
-                    rect(mouseX-scale/2,mouseY-scale/2,scale,scale);
+                    rect(localMouseX()*scale,localMouseY()*scale,scale,scale);
                     break;
                 case cursorMode.PICKING:
                     ellipse(mouseX,mouseY,scale,scale);
