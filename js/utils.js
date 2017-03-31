@@ -152,7 +152,7 @@ function keyPressed()
 
     //importing palettes
     if(keyIsDown(I_KEY))
-        palette.importJson('genpalette.json')
+        palette.importJson('newPalette.json')
     if(keyIsDown(O_KEY))
         palette.importJson('palette2.json')
     //undo
