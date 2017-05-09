@@ -29,9 +29,5 @@ Palette viewing     | with dedicated button
 - Full palette color picker
 - Dynamic resizing
 
-## Know bugs
-
-- cursor appears on the exported bitmap
-
 
 That's all! -Scott
