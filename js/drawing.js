@@ -42,10 +42,7 @@ class Drawing
     drawPixel(x,y)
     {
         let index = x+y*this.cols;
-        if(this.pixels[index] != this.paintingColor)
-        {
-            this.pixels[index] = this.paintingColor;
-        }
+        this.pixels[index] = this.paintingColor;
     }
 
     showPixels()
