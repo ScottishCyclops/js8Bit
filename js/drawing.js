@@ -18,12 +18,11 @@
 
 class Drawing
 {
-    constructor(palette,cols,rows,pixelSize,maxUndoSteps)
+    constructor(palette,cols,rows,maxUndoSteps)
     {
         this.palette = palette;
         this.cols = cols;
         this.rows = rows;
-        this.pixelSize = pixelSize;
         this.maxUndoSteps = maxUndoSteps;
         this.undoPosition = 0;
 
@@ -53,7 +52,7 @@ class Drawing
             let x = i%this.cols;
             let y = int(i/this.cols);
             fill(this.palette.getColor(this.pixels[i]));
-            rect(x*this.pixelSize,y*this.pixelSize,this.pixelSize,this.pixelSize);
+            rect(x*scale,y*scale,scale,scale);
         }
     }
 
@@ -96,8 +95,6 @@ class Drawing
         {
             console.log("nothing more to undo. try increasing undo steps")
         }
-
-        //console.log(this.undoPosition);
     }
 
     redo()
@@ -112,11 +109,11 @@ class Drawing
             this.pixels = this.undoSteps[this.undoPosition-1].slice();
             this.undoPosition--;
         }
-
-        //console.log(this.undoPosition);
     }
+
     importJson(file)
     {
+        //TODO: import cols and rows from file
         this.pixels = JSON.parse(file);
     }
 
@@ -125,6 +122,45 @@ class Drawing
         let jsonPixels = JSON.stringify(this.pixels);
         let dlLink = "data:application/octet-stream," + encodeURIComponent(jsonPixels);
         window.open(dlLink, 'drawing.json');
+    }
+
+    changeSize(newCols,newRows)
+    {
+        let diffX = newCols-this.cols;
+        let diffY = newRows-this.rows;
+
+        /*
+        let newPixelsX = diffX*newRows;
+        let newPixelsY = diffY*newCols;
+        let totalNewPixels = newPixelsX+newPixelsY;
+        let newSize = this.pixels.length+totalNewPixels;
+        */
+        let newSize = newCols*newRows;
+
+        this.pixels = new Array(newSize);
+        for(let i = 0; i < this.pixels.length; i++)
+        {
+            this.pixels[i] = this.paintingColor;
+        }
+        this.undoSteps = new Array();
+        this.undoPosition = 0;
+
+        //TODO: don't delete drawing
+        /*
+        if(totalNewPixels > 0)
+        {
+            for(let i = 0; i < totalNewPixels; i++)
+            {
+                this.pixels.push(0);
+            }
+        }
+        else if(totalNewPixels < 0)
+        {
+            this.pixels = this.pixels.slice(this.pixels.length-totalNewPixels,this.pixels.length);
+        }
+        */
+        this.cols = newCols;
+        this.rows = newRows;
     }
     
 }

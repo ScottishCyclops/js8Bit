@@ -18,20 +18,31 @@
 
 class CustomCursor
 {
+    /**
+     * Creates a cursor for a drawing
+     * @param {Drawing} drawing the drawing associated with the cursor
+     */
     constructor(drawing)
     {
         this.drawing = drawing;
         this.mode = cursorMode.DRAWING;
-        cursor(CROSS);
 
         this.hidden = false;
+               
+        cursor(CROSS);
     }
 
+    /**
+     * changes the cursor visibility so that it isn't drawn anymore
+     */
     hide()
     {
         this.hidden = true;
     }
 
+    /**
+     * changes the cursor visibility so that it is drawn again
+     */
     reveal()
     {
         this.hidden = false;

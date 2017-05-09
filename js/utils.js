@@ -183,3 +183,37 @@ function getInvertedColor(color)
 {
     return map(brightness(color),0,1,255,0);
 }
+
+let warned = false;
+/**
+ * Warning : for now, this function will overwrite the current drawing
+ */
+function changeCanvasSize(newCols,newRows)
+{
+    if(newCols !== cols || newRows !== rows)
+    {
+        if(!warned)
+        {
+            console.log("this fonction will overwrite the current drawing");
+            console.log("rerun to do it");
+            warned = true;
+        }
+        else
+        {
+            if(newCols*newRows < 40000)
+            {
+                let ratio = newCols/cols;
+                scale/=ratio;
+
+                cols = newCols;
+                rows = newRows;
+                createCanvas(cols*scale,rows*scale);
+                drawing.changeSize(cols,rows);
+            }
+            else
+            {
+                console.log("Values too big. aborted");
+            }
+        }
+    }
+}

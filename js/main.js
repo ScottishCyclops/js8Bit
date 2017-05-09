@@ -17,9 +17,9 @@
 */
 
 //constantes
-const cols = 16; //optimized for 16x16
-const rows = 16;
-const scale = 30; //the scale to which the pixels are drawn (1px is "scale" px in the browser)
+let cols = 16; //optimized for 16x16
+let rows = 16;
+let scale = 30; //the scale to which the pixels are drawn (1px is "scale" px in the browser)
 const undoSteps = 12;
 const paletteSize = 256;
 
@@ -47,7 +47,7 @@ function setup()
 
     //objects initialization
     palette      = new Palette(paletteSize);    
-    drawing      = new Drawing(palette,cols,rows,scale,undoSteps);
+    drawing      = new Drawing(palette,cols,rows,undoSteps);
     customCursor = new CustomCursor(drawing);
 
     //vars initialization
