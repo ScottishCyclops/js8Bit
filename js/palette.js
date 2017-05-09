@@ -23,30 +23,32 @@ class Palette
         this.size = size;
         this.colors = new Array(this.size);
 
+        //we fill the palette with black by default
         for(let i = 0; i < this.size; i++)
         {
             this.colors[i] = [0,0,0];
         }
     }
 
-    setColor(i,color)
+    setColor(index,color)
     {
-        this.colors[i] = color;
+        this.colors[index] = color;
     }
 
-    getColor(i)
+    getColor(index)
     {
-        return this.colors[i];
+        return this.colors[index];
     }
 
     importJson(file)
     {
-        let newColors = new Array();
         let getter = new XMLHttpRequest();
         
         getter.open('GET', file);       
         getter.onloadend = ()=>{
             let json = JSON.parse(getter.responseText);
+            //for now, I have to formats for the palette. I either contains a object called "palette"
+            //or a simple array
             if(json.palette)
             {
                 this.colors = json.palette;
@@ -57,27 +59,14 @@ class Palette
                 this.colors = json;
                 this.size = json.length;
             }
-        }
+        };
         //sending request
         getter.send();
     }
 
     showColors()
     {
-        /*
-        strokeWeight(1);
-        stroke(0);
-        //noStroke();
-        for(let i = 0; i < this.size; i++)
-        {
-            let x = (i%this.cols);
-            let y = int(i/this.cols);
-
-            fill(this.colors[i]);
-            rect(x*scale,y*scale,scale,scale);
-            //console.log(this.colors);
-        }
-        */
+        //TODO: optimize, accessing pixels directly ?
         noStroke();
         for(let i = 0; i < this.colors.length; i++)
         {

@@ -16,56 +16,74 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-class Cursor
+class CustomCursor
 {
     constructor(drawing)
     {
         this.drawing = drawing;
         this.mode = cursorMode.DRAWING;
         cursor(CROSS);
-        //noCursor();
+
+        this.hidden = false;
+    }
+
+    hide()
+    {
+        this.hidden = true;
+    }
+
+    reveal()
+    {
+        this.hidden = false;
     }
 
     draw()
     {
-        if(this.mode != 3)
+        if(!this.hidden)
         {
-            let fillColor;
-            switch(this.mode)
+            if(this.mode !== cursorMode.SELECTION)
             {
-                case cursorMode.DRAWING:
-                    fillColor = this.drawing.palette.getColor(this.drawing.paintingColor);
-                    break;
-                case cursorMode.PICKING:
-                    fillColor = this.drawing.palette.getColor(this.drawing.pixels[localMouseX()+localMouseY()*cols]);
-                    break;
-                case cursorMode.PALETTE:
-                    fillColor = getInvertedColor(this.drawing.palette.getColor(this.drawing.pixels[localMouseX()+localMouseY()*cols]));
-                    //console.log(fillColor);
-                    break;
-            }
+                let fillColor;
+                switch(this.mode)
+                {
+                    case cursorMode.DRAWING:
+                        //filling the cursor with the drawing color
+                        fillColor = this.drawing.palette.getColor(this.drawing.paintingColor);
+                        break;
+                    case cursorMode.PICKING:
+                        //filling the cursor with the hovering color
+                        fillColor = this.drawing.palette.getColor(this.drawing.pixels[localMouseX()+localMouseY()*cols]);
+                        break;
+                    case cursorMode.PALETTE:
+                        //TODO: fix color
+                        fillColor = getInvertedColor(this.drawing.palette.getColor(this.drawing.pixels[localMouseX()+localMouseY()*cols]));
+                        break;
+                }
 
-            //inverted grey-scale color
-            if(this.mode != cursorMode.PALETTE)
-            {
-                let strokeColor = getInvertedColor(fillColor);
-                strokeWeight(1);
-                stroke(strokeColor);
-            }
-            else
-            {
-                noStroke();
-            } 
-            fill(fillColor);
-            switch(this.mode)
-            {
-                case cursorMode.PALETTE:
-                case cursorMode.DRAWING:
-                    rect(localMouseX()*scale,localMouseY()*scale,scale,scale);
-                    break;
-                case cursorMode.PICKING:
-                    ellipse(mouseX,mouseY,scale,scale);
-                    break;
+                if(this.mode !== cursorMode.PALETTE)
+                {
+                    let strokeColor = getInvertedColor(fillColor);
+                    strokeWeight(1);
+                    stroke(strokeColor);
+                }
+                else
+                {
+                    noStroke();
+                }
+
+                fill(fillColor);
+                switch(this.mode)
+                {
+                    case cursorMode.PALETTE:
+                    case cursorMode.DRAWING:
+                        //we "snap" the drawing cursor to the pixels so we use the local mouse pos
+                        rect(localMouseX()*scale,localMouseY()*scale,scale,scale);
+                        break;
+                    case cursorMode.PICKING:
+                        //we don't "snap" here, so we use the default mouse pos
+                        ellipse(mouseX,mouseY,scale,scale);
+                        break;
+                }
             }
         }
     }

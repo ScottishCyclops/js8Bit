@@ -19,6 +19,14 @@
 //utilities
 
 /**
+ * Returns true if the mouse position is inside the canvas, false otherwise
+ */
+function isMouseInCanvas()
+{
+    return mouseY >= 0 && mouseX >= 0 && mouseY < height && mouseX < width;
+}
+
+/**
  * Returns whether the two given arrays are equal or not
  * @param {Array} a
  * @param {Array} b
@@ -69,9 +77,11 @@ function mouseReleased()
     pressing = false;
     //putting the last modifications in the undo stack
     drawing.pushUndo();
-    drawing.undoPosition = 0
-    if(cursor.mode == 1)
-        cursor.mode = 0
+    drawing.undoPosition = 0;
+    if(customCursor.mode == cursorMode.PICKING)
+    {
+        customCursor.mode = cursorMode.DRAWING;
+    }
 }
 
 /**
@@ -119,7 +129,7 @@ const SEVEN = 55;
 const EIGHT = 56;
 const NINE = 57;
 
-const CTRL = 17;
+const LCTRL = 17;
 const Z_KEY = 90;
 const Y_KEY = 89;
 const I_KEY = 73;
@@ -152,26 +162,29 @@ function keyPressed()
 
     //importing palettes
     if(keyIsDown(I_KEY))
-        palette.importJson('newPalette.json')
+        palette.importJson('palettes/default.json');
     if(keyIsDown(O_KEY))
-        palette.importJson('palette2.json')
+        palette.importJson('palettes/test.json');
     //undo
-     if(keyIsDown(CTRL) && keyIsDown(Z_KEY))
+     if(keyIsDown(LCTRL) && keyIsDown(Z_KEY))
         drawing.undo();
     //redo
-    if(keyIsDown(CTRL) && keyIsDown(Y_KEY))
+    if(keyIsDown(LCTRL) && keyIsDown(Y_KEY))
         drawing.redo();
+
+    if(keyIsDown(LCTRL))
+    {
+        customCursor.hide();
+    }
 
     //color picker
     if(keyIsDown(P_KEY))
         if(!paletteMode)
-            cursor.mode == 0 ? cursor.mode = 1 : cursor.mode = 0;
+            customCursor.mode === cursorMode.DRAWING ? customCursor.mode = cursorMode.PICKING : customCursor.mode = cursorMode.DRAWING;
 }
 
+//TODO: fix function. appears to only return black or white
 function getInvertedColor(color)
 {
     return map(brightness(color),0,1,255,0);
 }
-
-
-//saveCanvas

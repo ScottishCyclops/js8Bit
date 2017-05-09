@@ -16,21 +16,24 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-//optimized for 16x16
-const cols = 16;
+//constantes
+const cols = 16; //optimized for 16x16
 const rows = 16;
-//the scale to which the pixels are drawn (1px is "scale" px in the browser)
-const scale = 30;
+const scale = 30; //the scale to which the pixels are drawn (1px is "scale" px in the browser)
 const undoSteps = 12;
 const paletteSize = 256;
 
+
+//booleans
 let pressing;
+let paletteMode;
+
+//objects
 let palette;
 let drawing;
-let paletteMode;
-//let oldMode;
+let customCursor;
 
-//HTML inputs
+//HTML inputs elements
 let importJson;
 let exportJson;
 let exportBitmap;
@@ -39,19 +42,17 @@ let paletteEditor;
 
 function setup()
 {
-    //canvas
+    //p5 canvas creation
     createCanvas(cols*scale,rows*scale);
-    frameRate(120);
 
-    //objects and var initialization
-    palette = new Palette(paletteSize);
-    palette.setColor(1,[255,255,255]);
-    drawing = new Drawing(palette,cols,rows,scale,undoSteps);
-    cursor = new Cursor(drawing);
+    //objects initialization
+    palette      = new Palette(paletteSize);    
+    drawing      = new Drawing(palette,cols,rows,scale,undoSteps);
+    customCursor = new CustomCursor(drawing);
 
+    //vars initialization
     pressing = false;
     paletteMode = false;
-    //oldMode = 0;
 
     //drawing importing
     importJson = document.getElementById('importJson');
@@ -60,65 +61,76 @@ function setup()
         let reader = new FileReader();
         reader.onloadend = function()
         {
+            //we import as json the text result from the reader
             drawing.importJson(this.result);
+            //we reset the value to nothing
             importJson.value = "";
         };
+        //we don't care about more than one file, so we take the first one
         reader.readAsText(importJson.files[0]);
     };
 
     //drawing exporting as json
     exportJson = document.getElementById('exportJson');
-    exportJson.onclick = function () {
+    exportJson.onclick = function ()
+    {
         drawing.exportJson();
     };
 
     //drawing exporting as bitmap
     exportBitmap = document.getElementById('exportBitmap');
-    exportBitmap.onclick = function () {
+    exportBitmap.onclick = function ()
+    {
+        //we hide the cursor so it isn't drawn on thse canvas
+        customCursor.hide();
+        //we redraw the canvas without the cursor
+        redraw();
+        //we save the canvas as a drawing.bmp
         saveCanvas("drawing","bmp");
+        //we show the cursor again
+        customCursor.reveal();
     };
 
-    //palette mode
+    //palette viewing mode
     paletteViewer = document.getElementById('paletteViewer');
     paletteViewer.onclick = function()
     {
         paletteMode ? paletteMode = false : paletteMode = true;
-
-        if(paletteMode)
-            cursor.mode = cursorMode.PALETTE;
-        else
-            cursor.mode = cursorMode.DRAWING;
-    }
+        paletteMode ? customCursor.mode = cursorMode.PALETTE : customCursor.mode = cursorMode.DRAWING;
+    };
 
     //palette editor (complicated because we may want to do more stuff)
     paletteEditor = document.getElementById('paletteEditor');
     paletteEditor.onclick = function()
     {
         open('editor.html','_self');
-    }
+    };
     
     //confirm leaving
     window.onbeforeunload = function(e) 
     {
         return "Discard changes?";
     };
+    
+
+    //default palette
+    palette.importJson('palettes/default.json');
 }
 
 function draw()
 {
+    //TODO: remove background
     background(200);
 
     if(pressing)
     {
-        switch(cursor.mode)
+        switch(customCursor.mode)
         {
             case cursorMode.DRAWING:
-                if(!(mouseY < 0 || mouseX < 0 || mouseY > height || mouseX > width))
-                    drawing.drawPixel(localMouseX(),localMouseY());
+                if(isMouseInCanvas()) drawing.drawPixel(localMouseX(),localMouseY());
                 break;
             case cursorMode.PICKING:
-                if(!(mouseY < 0 || mouseX < 0 || mouseY > height || mouseX > width))
-                    drawing.paintingColor = drawing.pixels[localMouseX()+localMouseY()*cols];
+                if(isMouseInCanvas()) drawing.paintingColor = drawing.pixels[localMouseX()+localMouseY()*cols];
                 break;
             case cursorMode.PALETTE:
                 console.log("paletteMode");
@@ -126,9 +138,15 @@ function draw()
         }
     }
 
-    if(cursor.mode == cursorMode.PALETTE)
+    if(customCursor.mode == cursorMode.PALETTE)
+    {
         palette.showColors();
+    }
     else
+    {
         drawing.showPixels();
-    cursor.draw();
+    }
+
+    //the cursor is drawn on top of everything
+    customCursor.draw();
 }
