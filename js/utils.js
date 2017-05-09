@@ -171,12 +171,7 @@ function keyPressed()
     //redo
     if(keyIsDown(LCTRL) && keyIsDown(Y_KEY))
         drawing.redo();
-
-    if(keyIsDown(LCTRL))
-    {
-        customCursor.hide();
-    }
-
+        
     //color picker
     if(keyIsDown(P_KEY))
         if(!paletteMode)
