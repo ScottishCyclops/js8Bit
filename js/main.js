@@ -144,6 +144,7 @@ function draw()
     }
     else
     {
+        //TODO: optimize -> don't redraw everything everytime. only draw newly changed pixels
         drawing.showPixels();
     }
 
