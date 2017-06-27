@@ -28,6 +28,9 @@ Palette viewing     | with dedicated button
 - Palettes saving
 - Full palette color picker
 - Dynamic resizing
+- Layers
+- Mirroring
+
 
 
 That's all! -Scott

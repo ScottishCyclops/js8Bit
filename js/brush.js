@@ -16,7 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-class CustomCursor
+class Brush
 {
     /**
      * Creates a cursor for a drawing
@@ -54,6 +54,8 @@ class CustomCursor
         {
             if(this.mode !== cursorMode.SELECTION)
             {
+                push();
+
                 let fillColor;
                 switch(this.mode)
                 {
@@ -63,11 +65,12 @@ class CustomCursor
                         break;
                     case cursorMode.PICKING:
                         //filling the cursor with the hovering color
-                        fillColor = this.drawing.palette.getColor(this.drawing.pixels[localMouseX()+localMouseY()*cols]);
+                        fillColor = this.drawing.palette.getColor(this.drawing.pixels[localMouseX() + localMouseY() * cols]);
                         break;
                     case cursorMode.PALETTE:
                         //TODO: fix color
-                        fillColor = getInvertedColor(this.drawing.palette.getColor(this.drawing.pixels[localMouseX()+localMouseY()*cols]));
+                        fillColor = getInvertedColor(
+                            this.drawing.palette.getColor(this.drawing.pixels[localMouseX() + localMouseY() * cols]));
                         break;
                 }
 
@@ -88,13 +91,15 @@ class CustomCursor
                     case cursorMode.PALETTE:
                     case cursorMode.DRAWING:
                         //we "snap" the drawing cursor to the pixels so we use the local mouse pos
-                        rect(localMouseX()*scale,localMouseY()*scale,scale,scale);
+                        rect(localMouseX() * scale, localMouseY() * scale, scale, scale);
                         break;
                     case cursorMode.PICKING:
                         //we don't "snap" here, so we use the default mouse pos
-                        ellipse(mouseX,mouseY,scale,scale);
+                        ellipse(mouseX, mouseY, scale, scale);
                         break;
                 }
+
+                pop();
             }
         }
     }

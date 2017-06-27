@@ -16,7 +16,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-//utilities
 
 /**
  * Returns true if the mouse position is inside the canvas, false otherwise
@@ -26,14 +25,16 @@ function isMouseInCanvas()
     return mouseY >= 0 && mouseX >= 0 && mouseY < height && mouseX < width;
 }
 
+
 /**
  * Returns whether the two given arrays are equal or not
  * @param {Array} a
  * @param {Array} b
  */
-function isEqual(a,b)
+function isEqual(a, b)
 {
     let equal = true;
+
     if(typeof(a) !== typeof(b))
     {
         equal = false;
@@ -53,8 +54,10 @@ function isEqual(a,b)
             }
         }
     }
+
     return equal;
 }
+
 
 let cursorMode = 
 {
@@ -64,25 +67,6 @@ let cursorMode =
     SELECTION: 3,
 };
 
-//mouse
-
-function mousePressed()
-{
-    pressing = true;
-    drawing.pushUndo();
-}
-
-function mouseReleased()
-{
-    pressing = false;
-    //putting the last modifications in the undo stack
-    drawing.pushUndo();
-    drawing.undoPosition = 0;
-    if(customCursor.mode == cursorMode.PICKING)
-    {
-        customCursor.mode = cursorMode.DRAWING;
-    }
-}
 
 /**
  * Returns the position of the mouse on X clamped between 0 and the cols - 1.
@@ -91,14 +75,20 @@ function mouseReleased()
  */
 function localMouseX()
 {
-    let local = int(map(mouseX,0,scale*cols,0,cols));
+    let local = int(map(mouseX, 0, width, 0, cols));
 
-    if(local > cols-1)
-        local = cols-1;
+    if(local > cols - 1)
+    {
+        local = cols - 1;
+    }
     else if(local < 0)
+    {
         local = 0;
+    }
+
     return local;
 }
+
 
 /**
  * Returns the position of the mouse on Y clamped between 0 and the rows - 1.
@@ -107,108 +97,71 @@ function localMouseX()
  */
 function localMouseY()
 {
-    let local = int(map(mouseY,0,scale*rows,0,rows));
+    let local = int(map(mouseY, 0, height, 0, rows));
 
-    if(local > rows-1)
-        local = rows-1;
+    if(local > rows - 1)
+    {
+        local = rows - 1;
+    }
     else if(local < 0)
+    {
         local = 0;
+    }
+
     return local;
 }
 
-//keyboard
 
-const ZERO = 48;
-const ONE = 49;
-const TWO = 50;
-const THREE = 51;
-const FOUR = 52;
-const FIVE = 53;
-const SIX = 54;
-const SEVEN = 55;
-const EIGHT = 56;
-const NINE = 57;
+const KEY_ZERO = 48;
+const KEY_ONE = 49;
+const KEY_TWO = 50;
+const KEY_THREE = 51;
+const KEY_FOUR = 52;
+const KEY_FIVE = 53;
+const KEY_SIX = 54;
+const KEY_SEVEN = 55;
+const KEY_EIGHT = 56;
+const KEY_NINE = 57;
+const KEY_LEFT_CTRL = 17;
+const KEY_Z = 90;
+const KEY_Y = 89;
+const KEY_I = 73;
+const KEY_O = 79;
+const KEY_P = 80;
 
-const LCTRL = 17;
-const Z_KEY = 90;
-const Y_KEY = 89;
-const I_KEY = 73;
-const O_KEY = 79;
-const P_KEY = 80;
-
-function keyPressed()
-{
-    //quick access colors
-    if(keyIsDown(ZERO))
-        drawing.setPaintingColor(0);
-    if(keyIsDown(ONE))
-        drawing.setPaintingColor(1);
-    if(keyIsDown(TWO))
-        drawing.setPaintingColor(2);
-    if(keyIsDown(THREE))
-        drawing.setPaintingColor(3);
-    if(keyIsDown(FOUR))
-        drawing.setPaintingColor(4);
-    if(keyIsDown(FIVE))
-        drawing.setPaintingColor(5);
-    if(keyIsDown(SIX))
-        drawing.setPaintingColor(6);
-    if(keyIsDown(SEVEN))
-        drawing.setPaintingColor(7);
-    if(keyIsDown(EIGHT))
-        drawing.setPaintingColor(8);
-    if(keyIsDown(NINE))
-        drawing.setPaintingColor(9);
-
-    //importing palettes
-    if(keyIsDown(I_KEY))
-        palette.importJson('palettes/default.json');
-    if(keyIsDown(O_KEY))
-        palette.importJson('palettes/test.json');
-    //undo
-     if(keyIsDown(LCTRL) && keyIsDown(Z_KEY))
-        drawing.undo();
-    //redo
-    if(keyIsDown(LCTRL) && keyIsDown(Y_KEY))
-        drawing.redo();
-        
-    //color picker
-    if(keyIsDown(P_KEY))
-        if(!paletteMode)
-            customCursor.mode === cursorMode.DRAWING ? customCursor.mode = cursorMode.PICKING : customCursor.mode = cursorMode.DRAWING;
-}
 
 //TODO: fix function. appears to only return black or white
-function getInvertedColor(color)
+function getInvertedColor(c)
 {
-    return map(brightness(color),0,1,255,0);
+    return color(map(brightness(c), 0, 1, 255, 0));
 }
 
+//TODO: implement forrectly
 let warned = false;
 /**
  * Warning : for now, this function will overwrite the current drawing
  */
-function changeCanvasSize(newCols,newRows)
+function changeCanvasSize(newCols, newRows)
 {
     if(newCols !== cols || newRows !== rows)
     {
         if(!warned)
         {
             console.log("this fonction will overwrite the current drawing");
-            console.log("rerun to do it");
+            console.log("run again to do it");
             warned = true;
         }
         else
         {
-            if(newCols*newRows < 40000)
+            if(newCols * newRows < 40000)
             {
-                let ratio = newCols/cols;
-                scale/=ratio;
+                let ratio = newCols / cols;
+                scale /= ratio;
 
                 cols = newCols;
                 rows = newRows;
-                createCanvas(cols*scale,rows*scale);
-                drawing.changeSize(cols,rows);
+                resizeCanvas(cols * scale, rows * scale)
+                drawing.changeSize(cols, rows);
             }
             else
             {

@@ -18,42 +18,48 @@
 
 class Drawing
 {
-    constructor(palette,cols,rows,maxUndoSteps)
+    constructor(palette, maxUndoSteps)
     {
         this.palette = palette;
-        this.cols = cols;
-        this.rows = rows;
         this.maxUndoSteps = maxUndoSteps;
-        this.undoPosition = 0;
 
+        this.undoPosition = 0;
         this.undoSteps = new Array();
 
         this.paintingColor = 0;
-        this.pixels = new Array(this.cols*this.rows);
 
-        for(let i = 0; i < this.pixels.length; i++)
+        let numPixels = cols * rows;
+        //TODO: use 2D array
+        this.pixels = new Array(numPixels);
+
+        for(let i = 0; i < numPixels; i++)
         {
             this.pixels[i] = this.paintingColor;
         }
+
         this.pushUndo();
     }
 
-    drawPixel(x,y)
+    drawPixel(x, y)
     {
-        let index = x+y*this.cols;
+        let index = x + y * cols;
         this.pixels[index] = this.paintingColor;
     }
 
     showPixels()
     {
+        push();
+
         noStroke();
         for(let i = 0; i < this.pixels.length; i++)
         {
-            let x = i%this.cols;
-            let y = int(i/this.cols);
+            let x = i % cols;
+            let y = int(i / cols);
             fill(this.palette.getColor(this.pixels[i]));
-            rect(x*scale,y*scale,scale,scale);
+            rect(x * scale, y * scale, scale, scale);
         }
+
+        pop();
     }
 
     setPaintingColor(i)
@@ -64,31 +70,32 @@ class Drawing
     pushUndo()
     {
         //only if they were modifications
-        if(!isEqual(this.pixels,this.undoSteps[0]))
+        if(!isEqual(this.pixels, this.undoSteps[0]))
         {
             //we copy the array of pixels and put it into the undo array
+            //slicing without params makes a copy of the whole array
             this.undoSteps.unshift(this.pixels.slice());
-            //if we reached the max undo storage
-            
+
+            //if we reached the max undo storage we cut off the oldest undos
             if(this.undoSteps.length > this.maxUndoSteps)
             {
-                this.undoSteps = this.undoSteps.slice(0,this.maxUndoSteps);
+                this.undoSteps = this.undoSteps.slice(0, this.maxUndoSteps);
             }
         }
     }
     
     undo()
     {
-        if(this.undoPosition == 0)
+        if(this.undoPosition === 0)
         {
             //if we havn't undone yet, we need to save this stage for redo purpuses
             this.pushUndo();
         }
 
-        if(this.undoPosition < this.undoSteps.length-1)
+        if(this.undoPosition < this.undoSteps.length - 1)
         {
             //we copy the array from the undo to the real pixels
-            this.pixels = this.undoSteps[this.undoPosition+1].slice();
+            this.pixels = this.undoSteps[this.undoPosition + 1].slice();
             this.undoPosition++;
         }
         else
@@ -106,7 +113,7 @@ class Drawing
         }
         else
         {
-            this.pixels = this.undoSteps[this.undoPosition-1].slice();
+            this.pixels = this.undoSteps[this.undoPosition - 1].slice();
             this.undoPosition--;
         }
     }
@@ -121,46 +128,23 @@ class Drawing
     {
         let jsonPixels = JSON.stringify(this.pixels);
         let dlLink = "data:application/octet-stream," + encodeURIComponent(jsonPixels);
-        window.open(dlLink, 'drawing.json');
+        window.open(dlLink, "drawing.json");
     }
 
-    changeSize(newCols,newRows)
+    changeSize(newCols, newRows)
     {
-        let diffX = newCols-this.cols;
-        let diffY = newRows-this.rows;
-
-        /*
-        let newPixelsX = diffX*newRows;
-        let newPixelsY = diffY*newCols;
-        let totalNewPixels = newPixelsX+newPixelsY;
-        let newSize = this.pixels.length+totalNewPixels;
-        */
-        let newSize = newCols*newRows;
+        //TODO: don't delete drawing
+        let newSize = newCols * newRows;
 
         this.pixels = new Array(newSize);
-        for(let i = 0; i < this.pixels.length; i++)
+
+        for(let i = 0; i < newSize; i++)
         {
             this.pixels[i] = this.paintingColor;
         }
+
         this.undoSteps = new Array();
         this.undoPosition = 0;
-
-        //TODO: don't delete drawing
-        /*
-        if(totalNewPixels > 0)
-        {
-            for(let i = 0; i < totalNewPixels; i++)
-            {
-                this.pixels.push(0);
-            }
-        }
-        else if(totalNewPixels < 0)
-        {
-            this.pixels = this.pixels.slice(this.pixels.length-totalNewPixels,this.pixels.length);
-        }
-        */
-        this.cols = newCols;
-        this.rows = newRows;
     }
     
 }

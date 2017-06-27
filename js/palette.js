@@ -1,5 +1,5 @@
  /*
-    TThis is a simple 8bit painter made with P5.js
+    This is a simple 8bit painter made with P5.js
     Copyright (C) 2017 Scott Winkelmann
 
     This program is free software: you can redistribute it and/or modify
@@ -26,11 +26,11 @@ class Palette
         //we fill the palette with black by default
         for(let i = 0; i < this.size; i++)
         {
-            this.colors[i] = [0,0,0];
+            this.colors[i] = [0, 0, 0];
         }
     }
 
-    setColor(index,color)
+    setColor(index, color)
     {
         this.colors[index] = color;
     }
@@ -44,10 +44,11 @@ class Palette
     {
         let getter = new XMLHttpRequest();
         
-        getter.open('GET', file);       
-        getter.onloadend = ()=>{
+        getter.open("GET", file);
+        getter.onloadend = () =>
+        {
             let json = JSON.parse(getter.responseText);
-            //for now, I have to formats for the palette. I either contains a object called "palette"
+            //for now, I have two formats for the palette. It either contains an object called "palette"
             //or a simple array
             if(json.palette)
             {
@@ -66,14 +67,18 @@ class Palette
 
     showColors()
     {
+        push();
+        
         //TODO: optimize, accessing pixels directly ?
         noStroke();
         for(let i = 0; i < this.colors.length; i++)
         {
-            let x = i%cols;
-            let y = int(i/cols);
+            let x = i % cols;
+            let y = int(i / cols);
             fill(this.colors[i]);
-            rect(x*scale,y*scale,scale,scale);
+            rect(x * scale, y * scale, scale, scale);
         }
+
+        pop();
     }
 }
