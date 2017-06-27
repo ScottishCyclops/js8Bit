@@ -21,34 +21,55 @@
 
 <head>
     <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/css?family=Share+Tech+Mono" rel="stylesheet">
+    <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/style.css">
 
     <script src="libs/p5.min.js"></script>
-    <script src="js/main.js"></script>
+    <script src="js/sketch.js"></script>
     <script src="js/utils.js"></script>
 
-    <script src="js/cursor.js"></script>
+    <script src="js/brush.js"></script>
     <script src="js/drawing.js"></script>
     <script src="js/palette.js"></script>
 
 </head>
+
 <body>
-  <div id="content">
-    <h1>Painter</h1>
-    <input type="file" id="importJson" class="button"/>
-    <label for="importJson" class="label">Load</label>
 
-    <input type="button" id="exportJson" class="button"/>
-    <label for="exportJson" class="label">Save as</label>
+  <ul class="menu">
 
-    <input type="button" id="exportBitmap" class="button"/>
-    <label for="exportBitmap" class="label">Export</label>
+    <li>
+      <input type="file" id="importJson" class="button"/>
+      <label for="importJson" class="menu-item">Open</label>
+    </li>
 
-    <input type="button" id="paletteViewer" class="button"/>
-    <label for="paletteViewer" class="label">Show Palette</label>
+    <li>
+      <input type="button" id="exportJson" class="button"/>
+      <label for="exportJson" class="menu-item">Save</label>
+    </li>
 
-    <input type="button" id="paletteEditor" class="button"/>
-    <label for="paletteEditor" class="label">Palette Editor</label>
-  </div>
+    <li>
+      <input type="button" id="exportBitmap" class="button"/>
+      <label for="exportBitmap" class="menu-item">Export</label>
+    </li>
+
+    <li>
+      <input type="button" id="paletteViewer" class="button"/>
+      <label for="paletteViewer" class="menu-item">Show Palette</label>
+    </li>
+
+    <li>
+      <input type="button" id="paletteEditor" class="button"/>
+      <label for="paletteEditor" class="menu-item">Palette Editor</label>
+    </li>
+
+    <li class="menu-align-right">
+      <a href="https://github.com/ScottishCyclops/js8Bit" class="menu-item">Github</a>
+    </li>
+
+  </ul>
+
 </body>
+
 </html>

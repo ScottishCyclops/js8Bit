@@ -19,11 +19,19 @@
 *
 {
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+
+    --painter-editor-color: #282c34;
+    --painter-menu-color: #21252b;
+    --painter-menu-selected-color: #2c313a;
+    --painter-text-color: #e8e8e8;
+    --painter-menu-height: 10px;
 }
 
-h1
+html
 {
-    margin-top: 0;
+    background-color: var(--painter-editor-color);
 }
 
 a
@@ -31,9 +39,23 @@ a
     text-decoration: none;
 }
 
-#content
+.menu
 {
-    padding: 0px 0px 20px 0px;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: var(--painter-menu-color);
+}
+
+.menu li
+{
+    float: left;
+}
+
+.menu li.menu-align-right
+{
+    float: right;
 }
 
 .button
@@ -41,22 +63,31 @@ a
     display: none;
 }
 
-.label
+.menu-item
 {
-    padding: 15px 10px;
-    background-color: #DDD;
-    color: #000;
-    font-family: Arial, sans-serif;
+    display: block;
+    text-align: center;
+    padding: var(--painter-menu-height) 20px;
+    font-size: 1.1em;
+
+
+    background-color: var(--painter-menu-color);
+    color: var(--painter-text-color);
+    font-family: 'Share Tech Mono', monospace;
+
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -ms-user-select: none;
 }
 
-.label:hover
+.menu-item:hover
 {
-    background-color: #EEE;
-    box-shadow: 1px 1px 0px #AAA;
+    background-color: var(--painter-menu-selected-color);
 }
 
-.label:active
+.menu-item:active
 {
-    background-color: #AAA;
-    box-shadow: -1px -1px 0px #EEE;
+    background-color: #111;
 }
