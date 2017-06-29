@@ -60,6 +60,39 @@ class Drawing
         }
 
         pop();
+
+        /*
+        loadPixels();
+
+        let size = cols*scale*rows*scale*4;
+
+        for(let x = 0; x < cols; x++)
+        {
+            for(let y = 0; y < rows; y++)
+            {
+                let c = this.palette.getColor(this.pixels[x][y]);
+                let i = ((x * scale) + (y * scale * rows)) * 4;
+
+                for(let y = 0; y < scale; y++)
+                {
+                    pixels[i+y    ] = 255;
+                    pixels[i + 1] = 0;
+                    pixels[i + 2] = 0;
+                    pixels[i + 3] = 255;
+                }
+            }
+        }
+
+        for(let i = 0; i < size; i+=4)
+        {
+            pixels[i    ] = 255;
+            pixels[i + 1] = 0;
+            pixels[i + 2] = 0;
+            pixels[i + 3] = 255;
+        }
+
+        updatePixels();
+        */
     }
 
     setPaintingColor(i)

@@ -27,7 +27,6 @@ const paletteSize = 256;
 
 //booleans
 let pressing;
-let paletteMode;
 
 //objects
 let palette;
@@ -40,6 +39,7 @@ let domExportJson;
 let domExportBitmap;
 let domPaletteViewer;
 let domPaletteEditor;
+
 
 function setupDom()
 {
