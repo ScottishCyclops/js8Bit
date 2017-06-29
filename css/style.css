@@ -85,6 +85,7 @@ a
 .menu-item:hover
 {
     background-color: var(--painter-menu-selected-color);
+    cursor: pointer;
 }
 
 .menu-item:active
