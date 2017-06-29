@@ -18,6 +18,39 @@
 
 
 /**
+ * Creates and returns a two dimentional array of given length
+ * @param {Number} x
+ * @param {Number} y
+ */
+function D2Array(x = 1, y = 0)
+{
+    let a = new Array(x);
+
+    for(let i = 0; i < x; i++)
+    {
+        a[i] = new Array(y);
+    }
+
+    return a;
+}
+
+/**
+ * Returns a copy of the given two dimentional array
+ * @param {Array} array the 2D array to copy
+ */
+function copyD2Array(array)
+{
+    let newArray = new Array(array.length);
+
+    for(let i = 0; i < array.length; i++)
+    {
+        newArray[i] = array[i].slice();
+    }
+
+    return newArray;
+}
+
+/**
  * Returns true if the mouse position is inside the canvas, false otherwise
  */
 function isMouseInCanvas()
@@ -33,29 +66,39 @@ function isMouseInCanvas()
  */
 function isEqual(a, b)
 {
-    let equal = true;
+    let same = true;
 
-    if(typeof(a) !== typeof(b))
+    if(a === undefined || b === undefined)
     {
-        equal = false;
+        same = false;
     }
     else if(a.length !== b.length)
     {
-        equal = false;
+        same = false;
     }
     else
     {
-        for(let i = 0; i < a.length; i++)
+        for(let x = 0; x < a.length && same; x++)
         {
-            if(a[i] !== b[i])
+            if(a[x].length !== b[x].length)
             {
-                equal = false;
-                break;
+                same = false;
+            }
+            else
+            {
+
+                for(let y = 0; y < a[x].length && same; y++)
+                {
+                    if(a[x][y] !== b[x][y])
+                    {
+                        same = false;
+                    }
+                }
             }
         }
     }
 
-    return equal;
+    return same;
 }
 
 

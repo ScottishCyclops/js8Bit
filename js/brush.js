@@ -65,12 +65,12 @@ class Brush
                         break;
                     case cursorMode.PICKING:
                         //filling the cursor with the hovering color
-                        fillColor = this.drawing.palette.getColor(this.drawing.pixels[localMouseX() + localMouseY() * cols]);
+                        fillColor = this.drawing.palette.getColor(this.drawing.getPixel(localMouseX(), localMouseY()));
                         break;
                     case cursorMode.PALETTE:
                         //TODO: fix color
                         fillColor = getInvertedColor(
-                            this.drawing.palette.getColor(this.drawing.pixels[localMouseX() + localMouseY() * cols]));
+                            this.drawing.palette.getColor(this.drawing.getPixel(localMouseX(), localMouseY())));
                         break;
                 }
 

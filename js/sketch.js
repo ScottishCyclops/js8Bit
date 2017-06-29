@@ -41,21 +41,8 @@ let domExportBitmap;
 let domPaletteViewer;
 let domPaletteEditor;
 
-
-function setup()
+function setupDom()
 {
-    //p5 canvas creation
-    createCanvas(cols * scale, rows * scale);
-
-    //objects initialization
-    palette = new Palette(paletteSize);    
-    drawing = new Drawing(palette, undoSteps);
-    brush = new Brush(drawing);
-
-    //vars initialization
-    pressing = false;
-    paletteMode = false;
-
     //drawing importing
     domImportJson = document.getElementById("importJson");
     domImportJson.onchange = function()
@@ -97,9 +84,7 @@ function setup()
     domPaletteViewer = document.getElementById("paletteViewer");
     domPaletteViewer.onclick = () =>
     {
-        //TODO: switch for p = !p
-        paletteMode ? paletteMode = false : paletteMode = true;
-        paletteMode ? brush.mode = cursorMode.PALETTE : brush.mode = cursorMode.DRAWING;
+        brush.mode === cursorMode.DRAWING ? brush.mode = cursorMode.PALETTE : brush.mode = cursorMode.DRAWING;
     };
 
     //palette editor (complicated because we may want to do more stuff)
@@ -114,6 +99,24 @@ function setup()
     {
         return "Discard changes?";
     };
+}
+
+
+function setup()
+{
+    //p5 canvas creation
+    createCanvas(cols * scale, rows * scale);
+
+    //objects initialization
+    palette = new Palette(paletteSize);    
+    drawing = new Drawing(palette, undoSteps);
+    brush = new Brush(drawing);
+
+    //vars initialization
+    pressing = false;
+
+    //everything related to HTML elements
+    setupDom();
     
     //default palette
     palette.importJson("palettes/default.json");
@@ -138,7 +141,7 @@ function draw()
             case cursorMode.PICKING:
                 if(isMouseInCanvas())
                 {
-                    drawing.paintingColor = drawing.pixels[localMouseX() + localMouseY() * cols];
+                    drawing.paintingColor = drawing.getPixel(localMouseX(), localMouseY());
                 }
                 break;
             case cursorMode.PALETTE:
@@ -254,7 +257,7 @@ function keyPressed()
     //color picker
     if(keyIsDown(KEY_P))
     {
-        if(!paletteMode)
+        if(brush.mode !== cursorMode.PALETTE)
         {
             brush.mode === cursorMode.DRAWING ? brush.mode = cursorMode.PICKING : brush.mode = cursorMode.DRAWING;
         }

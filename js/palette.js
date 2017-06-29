@@ -70,6 +70,7 @@ class Palette
         push();
         
         //TODO: optimize, accessing pixels directly ?
+        //this array stays as a 1D array and uses this horrible method to be drawn
         noStroke();
         for(let i = 0; i < this.colors.length; i++)
         {
