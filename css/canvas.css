@@ -1,0 +1,12 @@
+#canvas
+{
+    position: relative;
+    background: red;
+    overflow: hidden;
+}
+
+.pixel
+{
+    position: absolute;
+    background: green;
+}

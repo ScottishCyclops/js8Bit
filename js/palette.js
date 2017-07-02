@@ -16,6 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+//100% functionnal
 class Palette
 {
     constructor(size)
@@ -40,7 +41,7 @@ class Palette
         return this.colors[index];
     }
 
-    importJson(file)
+    importJson(file, callback = ()=>{})
     {
         let getter = new XMLHttpRequest();
         
@@ -48,8 +49,7 @@ class Palette
         getter.onloadend = () =>
         {
             let json = JSON.parse(getter.responseText);
-            //for now, I have two formats for the palette. It either contains an object called "palette"
-            //or a simple array
+
             if(json.palette)
             {
                 this.colors = json.palette;
@@ -57,16 +57,20 @@ class Palette
             }
             else
             {
-                this.colors = json;
-                this.size = json.length;
+                console.log("No pallete found in the file");
             }
+
+            callback();
         };
+
         //sending request
         getter.send();
     }
 
     showColors()
     {
+        //TODO: reimplement
+        /*
         push();
         
         //TODO: optimize, accessing pixels directly ?
@@ -81,5 +85,6 @@ class Palette
         }
 
         pop();
+        */
     }
 }

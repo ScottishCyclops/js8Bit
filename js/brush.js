@@ -19,17 +19,17 @@
 class Brush
 {
     /**
-     * Creates a cursor for a drawing
+     * Creates a brush for a drawing
      * @param {Drawing} drawing the drawing associated with the cursor
      */
     constructor(drawing)
     {
         this.drawing = drawing;
-        this.mode = cursorMode.DRAWING;
+        this.mode = brushMode.DRAWING;
 
         this.hidden = false;
                
-        cursor(CROSS);
+        document.body.style.cursor = "cross";
     }
 
     /**

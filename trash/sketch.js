@@ -158,7 +158,8 @@ function draw()
     else
     {
         //TODO: don't redraw everything everytime. only draw newly changed pixels
-        drawing.showPixels();
+        //drawing.showPixels();
+        directDrawPixels();
     }
 
     //the cursor is drawn on top of everything

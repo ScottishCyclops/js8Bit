@@ -16,10 +16,12 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+//100% functionnal
 class Drawing
 {
-    constructor(palette, maxUndoSteps)
+    constructor(cells, palette, maxUndoSteps)
     {
+        this.cells = cells;
         this.palette = palette;
         this.maxUndoSteps = maxUndoSteps;
 
@@ -28,7 +30,7 @@ class Drawing
 
         this.paintingColor = 0;
 
-        this.pixels = D2Array(cols, rows);
+        this.pixels = make2DArray(cols, rows);
 
         for(let x = 0; x < cols; x++)
         {
@@ -37,67 +39,15 @@ class Drawing
         }
 
         this.pushUndo();
+
+        //TODO: layers!
+        this.layers = undefined;
     }
 
-    drawPixel(x, y)
+    setPixel(x, y, color = this.paintingColor)
     {
-        this.pixels[x][y] = this.paintingColor;
-    }
-
-    showPixels()
-    {
-        push();
-
-        noStroke();
-        for(let x = 0; x < cols; x++)
-        {
-            for(let y = 0; y < rows; y++)
-            {
-                fill(this.palette.getColor(this.pixels[x][y]));
-                //TODO: raw pixel access
-                rect(x * scale, y * scale, scale, scale);
-            }
-        }
-
-        pop();
-
-        /*
-        loadPixels();
-
-        let size = cols*scale*rows*scale*4;
-
-        for(let x = 0; x < cols; x++)
-        {
-            for(let y = 0; y < rows; y++)
-            {
-                let c = this.palette.getColor(this.pixels[x][y]);
-                let i = ((x * scale) + (y * scale * rows)) * 4;
-
-                for(let y = 0; y < scale; y++)
-                {
-                    pixels[i+y    ] = 255;
-                    pixels[i + 1] = 0;
-                    pixels[i + 2] = 0;
-                    pixels[i + 3] = 255;
-                }
-            }
-        }
-
-        for(let i = 0; i < size; i+=4)
-        {
-            pixels[i    ] = 255;
-            pixels[i + 1] = 0;
-            pixels[i + 2] = 0;
-            pixels[i + 3] = 255;
-        }
-
-        updatePixels();
-        */
-    }
-
-    setPaintingColor(i)
-    {
-        this.paintingColor = i;
+        this.pixels[x][y] = color;
+        this.colorCell(x, y);
     }
 
     getPixel(x, y)
@@ -105,14 +55,36 @@ class Drawing
         return this.pixels[x][y];
     }
 
+    colorAllCells()
+    {
+        for(let x = 0; x < cols; x++)
+        {
+            for(let y = 0; y < rows; y++)
+            {
+                this.colorCell(x, y);
+            }
+        }
+    }
+
+    colorCell(x, y)
+    {
+        let c = this.palette.getColor(this.pixels[x][y]);
+        this.cells[x + y * cols].style.backgroundColor = "rgb(" + c[0] + "," + c[1] + "," + c[2] + ")";
+    }
+
+    setPaintingColor(i)
+    {
+        this.paintingColor = i;
+    }
+
     pushUndo()
     {
         //only if they were modifications
-        if(!isEqual(this.pixels, this.undoSteps[0]))
+        if(!compare2DArray(this.pixels, this.undoSteps[0]))
         {
             //we copy the array of pixels and put it into the undo array
             //slicing without params makes a copy of the whole array
-            this.undoSteps.unshift(copyD2Array(this.pixels));
+            this.undoSteps.unshift(copy2DArray(this.pixels));
 
             //if we reached the max undo storage we cut off the oldest undos
             if(this.undoSteps.length > this.maxUndoSteps)
@@ -135,7 +107,9 @@ class Drawing
             //we copy the array from the undo to the real pixels
             //TODO: cler next two lines, why ++ ?
             this.undoPosition++;
-            this.pixels = copyD2Array(this.undoSteps[this.undoPosition]);
+            this.pixels = copy2DArray(this.undoSteps[this.undoPosition]);
+
+            this.colorAllCells();
         }
         else
         {
@@ -153,7 +127,9 @@ class Drawing
         else
         {
             this.undoPosition--;
-            this.pixels = copyD2Array(this.undoSteps[this.undoPosition]);
+            this.pixels = copy2DArray(this.undoSteps[this.undoPosition]);
+
+            this.colorAllCells();
         }
     }
 
@@ -161,21 +137,23 @@ class Drawing
     {
         //TODO: import cols and rows from file
         this.pixels = JSON.parse(file);
+
+        drawing.colorAllCells();
     }
 
     exportJson()
     {
         let jsonPixels = JSON.stringify(this.pixels);
-        let dlLink = "data:application/octet-stream," + encodeURIComponent(jsonPixels);
-        window.open(dlLink, "drawing.json");
+        return "data:application/octet-stream," + encodeURIComponent(jsonPixels);
     }
 
+    /*
     changeSize(newCols, newRows)
     {
         //TODO: don't delete drawing
         //TODO: remove duplicate from constructor
 
-        this.pixels = D2Array(newCols, newRows);
+        this.pixels = make2DArray(newCols, newRows);
  
         for(let x = 0; x < newCols; x++)
         {
@@ -185,9 +163,11 @@ class Drawing
         this.undoSteps = new Array();
         this.undoPosition = 0;
     }
+    */
 
     mirror()
     {
+        //TODO: implement
         /*
         let newPixels = this.pixels.slice();
 
@@ -200,4 +180,11 @@ class Drawing
         }
         */
     }
+
+    offset()
+    {
+
+    }
+
+    //repeat() TODO: ?
 }

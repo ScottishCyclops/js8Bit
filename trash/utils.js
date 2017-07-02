@@ -34,6 +34,7 @@ function D2Array(x = 1, y = 0)
     return a;
 }
 
+
 /**
  * Returns a copy of the given two dimentional array
  * @param {Array} array the 2D array to copy
@@ -179,6 +180,7 @@ function getInvertedColor(c)
     return color(map(brightness(c), 0, 1, 255, 0));
 }
 
+
 //TODO: implement forrectly
 let warned = false;
 /**
@@ -212,4 +214,44 @@ function changeCanvasSize(newCols, newRows)
             }
         }
     }
+}
+
+
+function directDrawPixels()
+{
+    loadPixels();
+
+    for(let x = 0; x < cols; x++)
+    {
+        for(let y = 0; y < rows; y++)
+        {
+            let c = palette.getColor(drawing.pixels[x][y]);
+
+            //1D index of the pixel
+            let i = (x * scale) + (y * scale * cols * scale);
+
+            pixels[i * 4     ] = c[0];
+            pixels[i * 4  + 1] = c[1];
+            pixels[i * 4  + 2] = c[2];
+            pixels[i * 4  + 3] = 255;
+
+            /*
+
+            for(let xScale = 0; xScale < scale; xScale++)
+            {
+                for(let yScale = 0; yScale < scale; yScale++)
+                {
+                    let finalIndex = (i + (xScale + yScale * scale)) * 4;
+                    pixels[finalIndex    ] = c[0];
+                    pixels[finalIndex + 1] = c[1];
+                    pixels[finalIndex + 2] = c[2];
+                    pixels[finalIndex + 3] = 255;
+                }
+            }
+            */
+
+        }
+    }
+
+    updatePixels();
 }

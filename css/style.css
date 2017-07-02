@@ -39,7 +39,7 @@ a
     text-decoration: none;
 }
 
-.menu
+#menu
 {
     list-style-type: none;
     margin: 0;
@@ -48,12 +48,12 @@ a
     background-color: var(--painter-menu-color);
 }
 
-.menu li
+#menu li
 {
     float: left;
 }
 
-.menu li.menu-align-right
+#menu li.menu-align-right
 {
     float: right;
 }
